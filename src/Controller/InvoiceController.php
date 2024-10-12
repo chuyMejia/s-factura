@@ -44,20 +44,28 @@ class InvoiceController extends AbstractController
     }
 
     #[Route('/invoice/my-invoices', name: 'app_my_invoices')]
+
+    
     public function myInvoices(): Response
-    {
-        $user = $this->getUser(); // Obtiene el usuario actualmente autenticado
+{
+    $user = $this->getUser(); // Obtiene el usuario actualmente autenticado
 
-        if (!$user instanceof UserInterface) {
-            throw $this->createAccessDeniedException('Necesitas estar logueado para acceder a esta página.');
-        }
-
-        // Obtener las facturas del usuario
-        // Aquí deberías agregar la lógica para obtener las facturas relacionadas con el usuario
-         $invoices = $this->entityManager->getRepository(Invoice::class)->findBy(['user' => $user]);
-
-        return $this->render('invoice/my-invoice.html.twig', [
-             'invoices' => $invoices,
-        ]);
+    if (!$user instanceof UserInterface) {
+        throw $this->createAccessDeniedException('Necesitas estar logueado para acceder a esta página.');
     }
+
+    // Obtener las facturas del usuario junto con las respuestas
+    $invoices = $this->entityManager->getRepository(Invoice::class)
+        ->createQueryBuilder('i')
+        ->leftJoin('i.response', 'r') // Usar el nombre correcto de la relación
+        ->addSelect('r') // Selecciona las respuestas también
+        ->where('i.user = :user')
+        ->setParameter('user', $user)
+        ->getQuery()
+        ->getResult();
+
+    return $this->render('invoice/my-invoice.html.twig', [
+        'invoices' => $invoices,
+    ]);
+}
 }

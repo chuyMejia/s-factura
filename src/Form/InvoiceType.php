@@ -27,9 +27,8 @@ class InvoiceType extends AbstractType
             ->add('priority', ChoiceType::class, [
                 'label' => 'status',
                 'choices'=> [
-                    'Alta' => 'high',
-                    'Medio' => 'medium',
-                    'Baja' => 'low',
+                    '0' => '0',
+                    
                 ]
             ])
             ->add('mount', NumberType::class, [ // Agregando el campo mount

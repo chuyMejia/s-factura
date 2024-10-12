@@ -45,3 +45,16 @@ INSERT INTO invoice VALUES(NULL,3,'FQ1557067','Prueba','alta',CURTIME(),CURTIME(
 
 
 
+
+CREATE TABLE response (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pdfFilename VARCHAR(255) NOT NULL,
+    xmlFilename VARCHAR(255) NOT NULL,
+    uuid VARCHAR(40) DEFAULT NULL,
+    invoice_id INT NOT NULL,
+    FOREIGN KEY (invoice_id) REFERENCES invoice(id)
+);
+
+
+
+

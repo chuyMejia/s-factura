@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ResponseController extends AbstractController
 {
-    private EntityManagerInterface $entityManager;
+    //private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
